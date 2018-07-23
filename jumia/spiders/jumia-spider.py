@@ -6,7 +6,7 @@ class JumiaSpider(scrapy.Spider):
     allowed_domains = ['jumia.com.ng']
     start_urls = ['https://www.jumia.com.ng/android-phones/']
     # start_urls = ['https://www.jumia.com.ng/printers-scanners/']
-    search_term = 'century'
+    search_term = 'washing'
 
     def check_if_product_matches_user_term(self, product):
         brand = product.css('a .title .brand::text').extract_first()

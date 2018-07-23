@@ -4,8 +4,9 @@ import scrapy
 class JumiaSpider(scrapy.Spider):
     name = 'JumiaSpider'
     allowed_domains = ['jumia.com.ng']
-    start_urls = ['https://www.jumia.com.ng/televisions/']
-    search_term = 'LG'
+    # start_urls = ['https://www.jumia.com.ng/televisions/']
+    start_urls = ['https://www.jumia.com.ng/printers-scanners/']
+    search_term = 'infinix'
 
     def check_if_product_matches_user_term(self, product):
         brand = product.css('a .title .brand::text').extract_first()
@@ -18,7 +19,6 @@ class JumiaSpider(scrapy.Spider):
 
     def parse(self, response):
         products = response.css('.sku.-gallery')
-        needed_links = []
         for product in products:
             if self.check_if_product_matches_user_term(product):
                 link = {

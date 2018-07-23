@@ -19,6 +19,7 @@ class JumiaSpider(scrapy.Spider):
 
     def parse(self, response):
         products = response.css('.sku.-gallery')
+        results = []
         for product in products:
             if self.check_if_product_matches_user_term(product):
                 link = {
@@ -26,8 +27,10 @@ class JumiaSpider(scrapy.Spider):
                     'old_price': product.css('a .price-container .price:nth-child(2) span:nth-child(2)::attr(data-price)').extract_first(),
                     'new_price': product.css('a .price-container .price:first-child span:nth-child(2)::attr(data-price)').extract_first(),
                 }
+                results.append(link)
                 yield link
         next_page_url = response.css('.pagination .item:last-child a::attr(href)').extract_first()
         yield scrapy.Request(url=next_page_url, callback=self.parse)
+        print(results)
 
 

@@ -18,7 +18,7 @@ class JumiaSpider(scrapy.Spider):
         if old_price > 0:
             discount = ((old_price - new_price) / old_price) * 100
             
-        if discount > 90 or 3495 < new_price <= 3505 or 3495 < old_price <= 3505 or old_price == 339990:
+        if discount > 90 or 3499 < new_price <= 3502 or 3499 < old_price <= 3502 or old_price == 339990:
             return True
         return False
     

@@ -4,8 +4,9 @@ import scrapy
 class JumiaSpider(scrapy.Spider):
     name = 'JumiaSpider'
     allowed_domains = ['jumia.com.ng']
-    # start_urls = ['https://www.jumia.com.ng/televisions/']
-    start_urls = ['https://www.jumia.com.ng/printers-scanners/']
+    start_urls = ['https://www.jumia.com.ng/televisions/']
+    results = []
+    # start_urls = ['https://www.jumia.com.ng/printers-scanners/']
 
     def check_if_product_price_meets(self, product):
         old_price = product.get('old_price', 0)
@@ -13,7 +14,7 @@ class JumiaSpider(scrapy.Spider):
         if new_price < 4000 or (old_price - new_price / old_price) * 100 > 90 or new_price == 3500 or old_price == 3500 or old_price == 339990 or new_price == 339990:
             return True
         return False
-
+    
     def go_to_next_page(self, response):
         pass
 
@@ -28,8 +29,10 @@ class JumiaSpider(scrapy.Spider):
                     'a .price-container .price:first-child span:nth-child(2)::attr(data-price)').extract_first(),
             }
             if self.check_if_product_price_meets(link):
+                self.results.append(link)
                 yield link
         next_page_url = response.css('.pagination .item:last-child a::attr(href)').extract_first()
         yield scrapy.Request(url=next_page_url, callback=self.parse)
+        print(self.results)
 
 

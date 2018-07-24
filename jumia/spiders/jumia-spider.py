@@ -4,7 +4,14 @@ import scrapy
 class JumiaSpider(scrapy.Spider):
     name = 'JumiaSpider'
     allowed_domains = ['jumia.com.ng']
-    start_urls = ['https://www.jumia.com.ng/televisions/']
+    start_urls = ['https://www.jumia.com.ng/televisions/',
+                  'https://www.jumia.com.ng/connectors-adapters/',
+                  'https://www.jumia.com.ng/other-tv-accessories/',
+                  'https://www.jumia.com.ng/mounts/',
+                  'https://www.jumia.com.ng/remote-controls/',
+                  'https://www.jumia.com.ng/tv-accessories-parts/',
+                  'https://www.jumia.com.ng/cables-interconnects/',
+                  'https://www.jumia.com.ng/video-converters/']
     results = []
     # start_urls = ['https://www.jumia.com.ng/printers-scanners/']
 

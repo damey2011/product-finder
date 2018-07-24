@@ -11,6 +11,8 @@ class JumiaSpider(scrapy.Spider):
     def check_if_product_price_meets(self, product):
         old_price = product.get('old_price', 0)
         new_price = product.get('new_price', 0)
+        old_price = int(old_price) if old_price else 0
+        new_price = int(new_price) if new_price else 0
         if new_price < 4000 or (old_price - new_price / old_price) * 100 > 90 or new_price == 3500 or old_price == 3500 or old_price == 339990 or new_price == 339990:
             return True
         return False

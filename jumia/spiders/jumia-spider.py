@@ -36,7 +36,7 @@ class JumiaSpider(scrapy.Spider):
                     'a .price-container .price:first-child span:nth-child(2)::attr(data-price)').extract_first(),
             }
             if self.check_if_product_price_meets(link):
-                self.results.append(link)
+                self.results.append(link['link'])
                 yield link
         next_page_url = response.css('.pagination .item:last-child a::attr(href)').extract_first()
         yield scrapy.Request(url=next_page_url, callback=self.parse)

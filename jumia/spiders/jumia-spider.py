@@ -1,19 +1,28 @@
 import scrapy
+from scrapy.linkextractors import LinkExtractor
 
-
-class JumiaSpider(scrapy.Spider):
+class JumiaSpider(scrapy.CrawlSpider):
     name = 'JumiaSpider'
     allowed_domains = ['jumia.com.ng']
-    start_urls = ['https://www.jumia.com.ng/televisions/']
+    start_urls = ['https://www.jumia.com.ng']
     results = []
-    # start_urls = ['https://www.jumia.com.ng/printers-scanners/']
+
+    rules = (
+        scrapy.Rule(LinkExtractor(), callback='parse_item', follow=True),
+    )
 
     def check_if_product_price_meets(self, product):
         old_price = product.get('old_price', 0)
         new_price = product.get('new_price', 0)
-        old_price = int(old_price) if old_price else 0
-        new_price = int(new_price) if new_price else 0
-        if new_price < 4000 or (old_price - new_price / old_price) * 100 > 90 or new_price == 3500 or old_price == 3500 or old_price == 339990 or new_price == 339990:
+
+        old_price = float(old_price) if old_price else 0.00
+        new_price = float(new_price) if new_price else 0.00
+        
+        discount = 0
+        if old_price > 0:
+            discount = ((old_price - new_price) / old_price) * 100
+            
+        if discount > 90 new_price == 500 or old_price == 500:
             return True
         return False
     
@@ -31,7 +40,7 @@ class JumiaSpider(scrapy.Spider):
                     'a .price-container .price:first-child span:nth-child(2)::attr(data-price)').extract_first(),
             }
             if self.check_if_product_price_meets(link):
-                self.results.append(link)
+                self.results.append(link['link'])
                 yield link
         next_page_url = response.css('.pagination .item:last-child a::attr(href)').extract_first()
         yield scrapy.Request(url=next_page_url, callback=self.parse)

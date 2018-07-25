@@ -22,7 +22,7 @@ class JumiaSpider(scrapy.CrawlSpider):
         if old_price > 0:
             discount = ((old_price - new_price) / old_price) * 100
             
-        if discount > 90 new_price == 500 or old_price == 500:
+        if discount > 90 or new_price == 500 or old_price == 500:
             return True
         return False
     

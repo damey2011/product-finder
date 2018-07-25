@@ -1,14 +1,15 @@
 import scrapy
+from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
 
-class JumiaSpider(scrapy.CrawlSpider):
+class JumiaSpider(CrawlSpider):
     name = 'JumiaSpider'
     allowed_domains = ['jumia.com.ng']
     start_urls = ['https://www.jumia.com.ng']
     results = []
 
     rules = (
-        scrapy.Rule(LinkExtractor(), callback='parse_item', follow=True),
+        Rule(LinkExtractor(), callback='parse_item', follow=True),
     )
 
     def check_if_product_price_meets(self, product):

@@ -9,7 +9,7 @@ class JumiaSpider(CrawlSpider):
     results = []
 
     rules = (
-        Rule(LinkExtractor(), callback='parse_item', follow=True),
+        Rule(LinkExtractor(), callback='parse', follow=True),
     )
 
     def check_if_product_price_meets(self, product):
